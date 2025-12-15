@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Appel – Caserne</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #c62828;
+      color: white;
+      padding: 15px 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      border: none;
+      padding: 8px 14px;
+      cursor: pointer;
+      background: #eeeeee;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .tab-btn.active {
+      background: #c62828;
+      color: white;
+    }
+    .sector {
+      display: none;
+      background: white;
+      border-radius: 6px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+    .sector.active {
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border-bottom: 1px solid #dddddd;
+      padding: 6px 4px;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #fafafa;
+    }
+    .status-select {
+      width: 100%;
+    }
+    .controls {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button.save-btn {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.export-btn {
+      background: #1565c0;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .saved-message {
+      margin-top: 10px;
+      color: #2e7d32;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Appel – Caserne (40 personnes / 4 secteurs)</h1>
+  </header>
+
+  <div class="container">
+    <label for="dateAppel"><strong>Date de l'appel :</strong></label>
+    <input type="date" id="dateAppel">
+
+    <div class="tabs">
+      <button class="tab-btn active" data-sector="secteur1">Secteur 1</button>
+      <button class="tab-btn" data-sector="secteur2">Secteur 2</button>
+      <button class="tab-btn" data-sector="secteur3">Secteur 3</button>
+      <button class="tab-btn" data-sector="secteur4">Secteur 4</button>
+    </div>
+
+    <!-- Secteur 1 -->
+    <div id="secteur1" class="sector active">
+      <h2>Secteur 1</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Statut</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Exemple de personnes – remplace par les vrais noms -->
+          <tr>
+            <td>Dupont Jean</td>
+            <td>
+              <select class="status-select">
+                <option value="">–</option>
+                <option value="present">Présent</option>
+                <option value="absent">Absent</option>
+                <option value="retard">Retard</option>
+                <option value="autre">Autre</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Remarque"></td>
+          </tr>
+          <tr>
+            <td>Martin Paul</td>
+            <td>
+              <select class="status-select">
+                <option value="">–</option>
+                <option value="present">Présent</option>
+                <option value="absent">Absent</option>
+                <option value="retard">Retard</option>
+                <option value="autre">Autre</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Remarque"></td>
+          </tr>
+          <!-- Ajoute ici les autres personnes du secteur 1 -->
+        </tbody>
+      </table>
+      <div class="controls">
+        <button class="save-btn" onclick="saveSector('secteur1')">Enregistrer le secteur 1</button>
+        <button class="export-btn" onclick="exportData()">Exporter toutes les présences (CSV)</button>
+      </div>
+      <div id="msg-secteur1" class="saved-message"></div>
+    </div>
+
+    <!-- Secteur 2 -->
+    <div id="secteur2" class="sector">
+      <h2>Secteur 2</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Statut</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Exemple – à adapter -->
+          <tr>
+            <td>Durand Alice</td>
+            <td>
+              <select class="status-select">
+                <option value="">–</option>
+                <option value="present">Présent</option>
+                <option value="absent">Absent</option>
+                <option value="retard">Retard</option>
+                <option value="autre">Autre</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Remarque"></td>
+          </tr>
+          <!-- Ajoute les autres personnes du secteur 2 -->
+        </tbody>
+      </table>
+      <div class="controls">
+        <button class="save-btn" onclick="saveSector('secteur2')">Enregistrer le secteur 2</button>
+        <button class="export-btn" onclick="exportData()">Exporter toutes les présences (CSV)</button>
+      </div>
+      <div id="msg-secteur2" class="saved-message"></div>
+    </div>
+
+    <!-- Secteur 3 -->
+    <div id="secteur3" class="sector">
+      <h2>Secteur 3</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Statut</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Ajoute les personnes du secteur 3 -->
+          <tr>
+            <td>Leroy Marc</td>
+            <td>
+              <select class="status-select">
+                <option value="">–</option>
+                <option value="present">Présent</option>
+                <option value="absent">Absent</option>
+                <option value="retard">Retard</option>
+                <option value="autre">Autre</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Remarque"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="controls">
+        <button class="save-btn" onclick="saveSector('secteur3')">Enregistrer le secteur 3</button>
+        <button class="export-btn" onclick="exportData()">Exporter toutes les présences (CSV)</button>
+      </div>
+      <div id="msg-secteur3" class="saved-message"></div>
+    </div>
+
+    <!-- Secteur 4 -->
+    <div id="secteur4" class="sector">
+      <h2>Secteur 4</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Statut</th>
+            <th>Remarque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Ajoute les personnes du secteur 4 -->
+          <tr>
+            <td>Bernard Chloe</td>
+            <td>
+              <select class="status-select">
+                <option value="">–</option>
+                <option value="present">Présent</option>
+                <option value="absent">Absent</option>
+                <option value="retard">Retard</option>
+                <option value="autre">Autre</option>
+              </select>
+            </td>
+            <td><input type="text" placeholder="Remarque"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="controls">
+        <button class="save-btn" onclick="saveSector('secteur4')">Enregistrer le secteur 4</button>
+        <button class="export-btn" onclick="exportData()">Exporter toutes les présences (CSV)</button>
+      </div>
+      <div id="msg-secteur4" class="saved-message"></div>
+    </div>
+  </div>
+
+  <script>
+    // Gestion des onglets
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const sectors = document.querySelectorAll('.sector');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-sector');
+
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        sectors.forEach(sec => {
+          if (sec.id === target) {
+            sec.classList.add('active');
+          } else {
+            sec.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // Sauvegarde locale (localStorage)
+    function saveSector(sectorId) {
+      const date = document.getElementById('dateAppel').value || 'sans_date';
+      const sectorElement = document.getElementById(sectorId);
+      const rows = sectorElement.querySelectorAll('tbody tr');
+      const data = [];
+
+      rows.forEach(row => {
+        const name = row.cells[0].innerText.trim();
+        const status = row.querySelector('.status-select').value;
+        const remark = row.querySelector('input[type="text"]').value.trim();
+        data.push({ nom: name, statut: status, remarque: remark });
+      });
+
+      const key = 'appel_' + date + '_' + sectorId;
+      localStorage.setItem(key, JSON.stringify(data));
+
+      const msg = document.getElementById('msg-' + sectorId);
+      msg.textContent = 'Présences enregistrées pour ' + sectorId + ' (date : ' + date + ').';
+      setTimeout(() => msg.textContent = '', 3000);
+    }
+
+    // Export CSV global
+    function exportData() {
+      const date = document.getElementById('dateAppel').value || 'sans_date';
+      const headers = ['Date', 'Secteur', 'Nom', 'Statut', 'Remarque'];
+      let rows = [headers.join(';')];
+
+      ['secteur1','secteur2','secteur3','secteur4'].forEach(sectorId => {
+        const key = 'appel_' + date + '_' + sectorId;
+        const stored = localStorage.getItem(key);
+        if (stored) {
+          const list = JSON.parse(stored);
+          list.forEach(item => {
+            rows.push([
+              date,
+              sectorId,
+              item.nom,
+              item.statut,
+              item.remarque ? item.remarque.replace(/;/g, ',') : ''
+            ].join(';'));
+          });
+        }
+      });
+
+      const csvContent = rows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'appel_' + date + '.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
